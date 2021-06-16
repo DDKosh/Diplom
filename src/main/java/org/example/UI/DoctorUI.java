@@ -20,11 +20,7 @@ public class DoctorUI extends PersonUI<Doctor> {
     @Override
     public final void addColumnToGrid(final Grid<Doctor> grid) {
         //grid.addColumn(i -> new Image(Doctor::getPicFile)).setCaption("Picture");
-        grid.addColumn(Doctor::getSpecialization).setHeader("Specialization");
-        grid.addColumn(Doctor::getCourses).setHeader("Courses");
-    }
-
-    private void getPics() {
-
+        grid.addColumn(Doctor::getSpecialization).setHeader("Специализация").setSortable(true);
+        grid.addColumn(Doctor::getCourses).setHeader("Курсы").setSortable(true);
     }
 }

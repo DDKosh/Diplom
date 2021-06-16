@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridSingleSelectionModel;
 import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.grid.GridSortOrderBuilder;
 import com.vaadin.flow.component.html.Div;
@@ -14,14 +15,12 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLayout;
 import org.example.DAO.AbstractDAO;
 import org.example.DTO.Abstract;
+import org.example.DTO.Person;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * The type Abstract ui.
@@ -62,7 +61,7 @@ public abstract class AbstractUI<E extends Abstract> extends VerticalLayout impl
         /**
          * The Add button.
          */
-        Button addButton = new Button("Add");
+        Button addButton = new Button("Добавить");
         div.add(addButton);
         addButton.addClickListener(e -> {
             EditAddModalUI<Abstract> editAddModal =
@@ -74,7 +73,7 @@ public abstract class AbstractUI<E extends Abstract> extends VerticalLayout impl
         /**
          * The Change button.
          */
-        Button changeButton = new Button("Change");
+        Button changeButton = new Button("Изменить");
         div.add(changeButton);
         changeButton.addClickListener(e -> {
             EditAddModalUI<Abstract> editAddModal =
@@ -92,7 +91,7 @@ public abstract class AbstractUI<E extends Abstract> extends VerticalLayout impl
         /**
          * The Delete button.
          */
-        Button deleteButton = new Button("Delete");
+        Button deleteButton = new Button("Удалить");
         div.add(deleteButton);
         deleteButton.addClickListener(e -> {
             try {
@@ -117,8 +116,14 @@ public abstract class AbstractUI<E extends Abstract> extends VerticalLayout impl
         horizontalLayout.add(addButton, changeButton, deleteButton);
         add(horizontalLayout, grid);
         grid.setItems(entity);
+        final Person[] o = new Person[1];
+        grid.addItemClickListener(e -> {
+            o[0] = (Person)grid.getSelectedItems().iterator().next();
+
+        });
         grid.addItemDoubleClickListener(e -> {
-            PersonInfo personInfo = new PersonInfo();
+
+            PersonInfo personInfo = new PersonInfo(o[0]);
             //this.setVisible(false);
             //grid.setVisible(false);
             //personInfo.setVisible(true);

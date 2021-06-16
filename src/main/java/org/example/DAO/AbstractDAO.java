@@ -29,6 +29,9 @@ public abstract class AbstractDAO<E> {
     protected abstract ResultSet getRsAll(Statement statement)
             throws SQLException;
 
+    protected abstract ResultSet getRsAll(Statement statement, long id)
+            throws SQLException;
+
     /**
      * Gets ps by id.
      *
@@ -106,6 +109,20 @@ public abstract class AbstractDAO<E> {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = getRsAll(statement)) {
+            while (resultSet.next()) {
+                list.add(getObject(resultSet));
+            }
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+        return list;
+    }
+
+    public List<E> getAllById(long id) {
+        List<E> list = new ArrayList<>();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = getRsAll(statement, id)) {
             while (resultSet.next()) {
                 list.add(getObject(resultSet));
             }

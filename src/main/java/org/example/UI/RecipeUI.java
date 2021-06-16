@@ -21,12 +21,12 @@ public class RecipeUI extends AbstractUI<Recipe> {
     public final Grid<Recipe> createGrid() {
         Grid<Recipe> grid = new Grid<>();
         grid.asSingleSelect();
-        grid.addColumn(Recipe::getDescription).setHeader("Description");
-        grid.addColumn(p -> p.getPatient().getFullName()).setHeader("Patient");
-        grid.addColumn(d -> d.getDoctor().getFullName()).setHeader("Doctor");
-        grid.addColumn(Recipe::getCreationDate).setHeader("Creation Date");
-        grid.addColumn(Recipe::getValidity).setHeader("Validity");
-        grid.addColumn(Recipe::getPriority).setHeader("Priority");
+        grid.addColumn(Recipe::getDescription).setHeader("Описание").setSortable(true);
+        grid.addColumn(p -> p.getPatient().getFullName()).setHeader("Пациент").setSortable(true); //TODO
+        grid.addColumn(d -> d.getDoctor().getFullName()).setHeader("Доктор").setSortable(true);
+        grid.addColumn(Recipe::getCreationDate).setHeader("Дата создания").setSortable(true);
+        grid.addColumn(Recipe::getValidity).setHeader("Срок действия").setSortable(true);
+        grid.addColumn(Recipe::getPriority).setHeader("Приоритет").setSortable(true);
         setEntity((List<Recipe>) getDao().getAll());
         grid.getDataProvider().refreshAll();
         return grid;

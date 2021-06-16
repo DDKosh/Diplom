@@ -97,10 +97,7 @@
 
         <!-- Added to provide logging output as Flow uses -->
         <!-- the unbound SLF4J no-operation (NOP) logger implementation -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>textfieldformatter</artifactId>

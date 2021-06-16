@@ -9,6 +9,10 @@ public class Patient extends Person {
      */
     private String phoneNumber;
 
+    private long policy;
+
+    private String registration;
+
     /**
      * Instantiates a new Patient.
      *
@@ -20,9 +24,11 @@ public class Patient extends Person {
      */
     public Patient(final long id, final String name,
                    final String patronymic, final String surname,
-                   final String inputPhoneNumber) {
+                   final String inputPhoneNumber, final long policy, final String registration) {
         super(id, name, patronymic, surname);
         this.phoneNumber = inputPhoneNumber;
+        this.policy = policy;
+        this.registration = registration;
     }
 
     /**
@@ -32,6 +38,14 @@ public class Patient extends Person {
      */
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public long getPolicy() {
+        return policy;
+    }
+
+    public String getRegistration() {
+        return registration;
     }
 }
 

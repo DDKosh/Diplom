@@ -20,6 +20,6 @@ public class PatientUI extends PersonUI<Patient> {
 
     @Override
     public final void addColumnToGrid(final Grid<Patient> grid) {
-        grid.addColumn(Patient::getPhoneNumber).setHeader("Phone Number");
+        grid.addColumn(Patient::getPhoneNumber).setHeader("Номер телефона").setSortable(true);
     }
 }

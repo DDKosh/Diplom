@@ -19,6 +19,11 @@ public class RecipePriorityDAO extends AbstractDAO<RecipePriority> {
     }
 
     @Override
+    protected ResultSet getRsAll(Statement statement, long id) throws SQLException {
+        return null;
+    }
+
+    @Override
     protected final PreparedStatement getPsById(final Connection connection, final long id) throws SQLException {
         PreparedStatement statement = null;
         try {

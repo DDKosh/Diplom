@@ -8,11 +8,9 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.upload.Upload;
-import com.vaadin.flow.data.provider.DataProvider;
-import com.vaadin.flow.data.provider.ListDataProvider;
 import org.example.DAO.DoctorDAO;
 import org.example.DAO.PatientDAO;
 import org.example.DAO.RecipePriorityDAO;
@@ -82,15 +80,18 @@ public class EditAddModalUI<E> extends Dialog {
      */
     private TextField validityField;
 
-    private Upload upload;
 
     private TextArea coursesField;
+
+    private NumberField policyField;
+
+    private TextField registrationField;
+
     /**
      * @value recipe priority combo box
      */
     private ComboBox priorityBox;
 
-    private Image image;
     /**
      * @value one constant
      */
@@ -143,14 +144,14 @@ public class EditAddModalUI<E> extends Dialog {
                         nameField.getValue(),
                         patronymicField.getValue(),
                         surnameField.getValue(),
-                        phoneNumberField.getValue());
+                        phoneNumberField.getValue(), policyField.getValue().longValue(), registrationField.getValue());
                 try {
                     abstractUI.getDao().add(patient);
                     abstractUI.refreshGrid();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                close();
+                close(); //TODO
             });
 
         } else if (abstractUI instanceof RecipeUI) {
@@ -215,7 +216,7 @@ public class EditAddModalUI<E> extends Dialog {
             } else if (abstractUI instanceof PatientUI) {
                 Patient patient = (Patient) object;
                 createPatientLayout(patient.getName(), patient.getPatronymic(),
-                        patient.getSurname(), patient.getPhoneNumber());
+                        patient.getSurname(), patient.getPhoneNumber(), patient.getPolicy(), patient.getRegistration());
                 createButtons();
                 add(layout);
                 add(okButton, cancelButton);
@@ -225,13 +226,13 @@ public class EditAddModalUI<E> extends Dialog {
                                 nameField.getValue(),
                                 patronymicField.getValue(),
                                 surnameField.getValue(),
-                                phoneNumberField.getValue());
+                                phoneNumberField.getValue(), patient.getPolicy(), patient.getRegistration());
                         abstractUI.getDao().update(newPatient, abstractUI.getSelectedItem().getId());
                         abstractUI.refreshGrid();
                         close();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
-                    }
+                    } //TODO
                 });
             } else if (abstractUI instanceof RecipeUI) {
                 Recipe recipe = (Recipe) object;
@@ -269,9 +270,9 @@ public class EditAddModalUI<E> extends Dialog {
      * Create person layout.
      */
     public void createPersonLayout() {
-        nameField = new TextField("Name");
-        patronymicField = new TextField("Patronymic");
-        surnameField = new TextField("Surname");
+        nameField = new TextField("Имя");
+        patronymicField = new TextField("Отчество");
+        surnameField = new TextField("Фамилия");
         layout.add(nameField, patronymicField, surnameField);
     }
 
@@ -280,10 +281,12 @@ public class EditAddModalUI<E> extends Dialog {
      */
     public void createPatientLayout() {
         createPersonLayout();
-        phoneNumberField = new TextField("Phone number");
+        phoneNumberField = new TextField("Номер телефона");
         //options.prefix("+7", "");
         phoneNumberField.setMaxLength(11);
-        layout.add(phoneNumberField);
+        policyField = new NumberField("Номер полиса");
+        registrationField = new TextField("Адрес прописки");
+        layout.add(phoneNumberField, policyField, registrationField);
     }
 
     /**
@@ -295,15 +298,19 @@ public class EditAddModalUI<E> extends Dialog {
      * @param phoneNumber the phone number
      */
     public void createPatientLayout(final String name, final String patronymic, final String surname,
-                                    final String phoneNumber) {
+                                    final String phoneNumber, final long policy, final String registration) {
         createPersonLayout();
         nameField.setValue(name);
         patronymicField.setValue(patronymic);
         surnameField.setValue(surname);
-        phoneNumberField = new TextField("Phone number");
+        phoneNumberField = new TextField("Номер телефона");
         phoneNumberField.setValue(phoneNumber);
         phoneNumberField.setMaxLength(11);
-        layout.add(phoneNumberField);
+        policyField = new NumberField("Номер полиса");
+        policyField.setValue(Double.parseDouble(String.valueOf(policy)));
+        registrationField = new TextField("Адрес прописки");
+        registrationField.setValue(registration);
+        layout.add(phoneNumberField, policyField, registrationField);
     }
 
     /**
@@ -350,7 +357,7 @@ public class EditAddModalUI<E> extends Dialog {
         nameField.setValue(name);
         patronymicField.setValue(patronymic);
         surnameField.setValue(surname);
-        specializationBox = new ComboBox<String>("Specialization", new SpecializationDAO().getAll());
+        specializationBox = new ComboBox<String>("Специализация", new SpecializationDAO().getAll());
         specializationBox.setItemLabelGenerator((ItemLabelGenerator<String>) Object::toString);
         //ListDataProvider dataProvider = DataProvider.ofCollection(new SpecializationDAO().getAll());
         //specializationBox.setItemLabelGenerator((ItemLabelGenerator<String>) Object::toString);
@@ -398,7 +405,7 @@ public class EditAddModalUI<E> extends Dialog {
         horizontalLayout.addComponent(image);*/
         layout.add(horizontalLayout);
         createPersonLayout();
-        specializationBox = new ComboBox<String>("Specialization", new SpecializationDAO().getAll());
+        specializationBox = new ComboBox<String>("Специализация", new SpecializationDAO().getAll());
         //ListDataProvider dataProvider = DataProvider.ofCollection(new SpecializationDAO().getAll());
         specializationBox.setItemLabelGenerator((ItemLabelGenerator<String>) Object::toString);
 
@@ -412,7 +419,7 @@ public class EditAddModalUI<E> extends Dialog {
      * Sets patient box.
      */
     public void setPatientBox() {
-        patientBox = new ComboBox("Patient", new PatientDAO().getAll());
+        patientBox = new ComboBox("Пациент", new PatientDAO().getAll());
         patientBox.setItemLabelGenerator((ItemLabelGenerator<Patient>) Person::getFullName);
         patientBox.setWidth("300px");
         patientBox.setRequired(true);
@@ -422,7 +429,7 @@ public class EditAddModalUI<E> extends Dialog {
      * Sets doctor box.
      */
     public void setDoctorBox() {
-        doctorBox = new ComboBox("Doctor", new DoctorDAO().getAll());
+        doctorBox = new ComboBox("Доктор", new DoctorDAO().getAll());
         doctorBox.setItemLabelGenerator((ItemLabelGenerator<Doctor>) Doctor::getFullName);
         doctorBox.setWidth("300px");
         doctorBox.setRequired(true);
@@ -432,7 +439,7 @@ public class EditAddModalUI<E> extends Dialog {
      * Sets priority box.
      */
     public void setPriorityBox() {
-        priorityBox = new ComboBox("Priority", new RecipePriorityDAO().getAll());
+        priorityBox = new ComboBox("Приоритет", new RecipePriorityDAO().getAll());
         priorityBox.setItemLabelGenerator((ItemLabelGenerator<RecipePriority>) RecipePriority::getPriority);
         priorityBox.setRequired(true);
     }
@@ -441,14 +448,14 @@ public class EditAddModalUI<E> extends Dialog {
      * Create recipe layout.
      */
     public void createRecipeLayout() {
-        descriptionField = new TextArea("Description");
+        descriptionField = new TextArea("Описания");
         descriptionField.setWidth("300px");
         setPatientBox();
         setDoctorBox();
-        creationDateField = new DatePicker("Creation date");
+        creationDateField = new DatePicker("Дата создания");
         creationDateField.setValue(LocalDate.now());
         creationDateField.setMin(LocalDate.now());
-        validityField = new TextField("Validity (days)");
+        validityField = new TextField("Срок действия (в днях)");
         setPriorityBox();
         layout.add(descriptionField, patientBox, doctorBox,
                 creationDateField, validityField, priorityBox);
@@ -483,7 +490,7 @@ public class EditAddModalUI<E> extends Dialog {
     public void createButtons() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         okButton = new Button("Ok");
-        cancelButton = new Button("Cancel");
+        cancelButton = new Button("Отмена");
         horizontalLayout.add(okButton, cancelButton);
         layout.add(horizontalLayout);
     }

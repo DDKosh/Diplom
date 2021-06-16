@@ -37,9 +37,9 @@ public abstract class PersonUI<E extends Person> extends AbstractUI<E> {
         setEntity(new ArrayList<>());
         Grid<E> grid = new Grid<>();
         grid.asSingleSelect();
-        grid.addColumn(E::getName).setHeader("Name");
-        grid.addColumn(E::getPatronymic).setHeader("Patronymic");
-        grid.addColumn(E::getSurname).setHeader("Surname");
+        grid.addColumn(E::getName).setHeader("Имя").setSortable(true);
+        grid.addColumn(E::getPatronymic).setHeader("Отчество").setSortable(true);
+        grid.addColumn(E::getSurname).setHeader("Фамилия").setSortable(true);
         addColumnToGrid(grid);
         List list = getDao().getAll();
         setEntity(list);

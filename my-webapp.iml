@@ -91,8 +91,8 @@
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-crud-flow:14.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-grid-pro-flow:14.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.vaadin:vaadin-rich-text-editor-flow:14.5.2" level="project" />
+    <orderEntry type="library" name="Maven: org.vaadin:textfieldformatter:5.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
-    <orderEntry type="library" name="Maven: org.vaadin:textfieldformatter:5.2.0" level="project" />
   </component>
 </module>

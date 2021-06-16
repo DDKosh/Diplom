@@ -27,22 +27,16 @@ import java.util.stream.Stream;
 public class MainView extends VerticalLayout {
 
     public MainView() {
-        /*Button button = new Button("Click me",
-                event -> Notification.show("Clicked!"));
-        add(button);
-        Tab tabPatient = new Tab("Patients");
-        Tab tabDoctors = new Tab("Doctors");
-        Tab tabRecipes = new Tab("Recipes");
-        add(tabPatient, tabDoctors, tabRecipes);*/
-        Tab tab1 = new Tab("Patients");
+
+        Tab tab1 = new Tab("Пациенты");
         Div page1 = new Div();
         page1.add(new PatientUI());
 
-        Tab tab2 = new Tab("Doctors");
+        Tab tab2 = new Tab("Доктора");
         Div page2 = new Div(new DoctorUI());
         page2.setVisible(false);
 
-        Tab tab3 = new Tab("Recipes");
+        Tab tab3 = new Tab("Рецепты");
         Div page3 = new Div(new RecipeUI());
         page3.setVisible(false);
 

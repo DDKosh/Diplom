@@ -83,9 +83,9 @@
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-crud-flow:14.5.2" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-grid-pro-flow:14.5.2" />
           <element id="library" level="project" name="Maven: com.vaadin:vaadin-rich-text-editor-flow:14.5.2" />
+          <element id="library" level="project" name="Maven: org.vaadin:textfieldformatter:5.2.0" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.30" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.30" />
-          <element id="library" level="project" name="Maven: org.vaadin:textfieldformatter:5.2.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

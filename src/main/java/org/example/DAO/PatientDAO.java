@@ -27,7 +27,11 @@ public class PatientDAO extends AbstractDAO<Patient> {
     /**
      * @value identifier
      */
-    private static final int ID_ID = 5;
+    private static final int ID_POLICY = 5;
+
+    private static final int ID_REGISTRATION = 6;
+
+    private static final int ID_ID = 7;
 
     @Override
     protected final Patient getObject(final ResultSet resultSet) throws SQLException {
@@ -35,12 +39,19 @@ public class PatientDAO extends AbstractDAO<Patient> {
                 resultSet.getString("NAME"),
                 resultSet.getString("PATRONYMIC"),
                 resultSet.getString("SURNAME"),
-                resultSet.getString("PHONENUMBER"));
+                resultSet.getString("PHONENUMBER"),
+                resultSet.getLong("POLICY"),
+                resultSet.getString("REGISTRATION"));
     }
 
     @Override
     protected final ResultSet getRsAll(final Statement statement) throws SQLException {
         return statement.executeQuery("SELECT * FROM PATIENT");
+    }
+
+    @Override
+    protected ResultSet getRsAll(Statement statement, long id) throws SQLException {
+        return null;
     }
 
     @Override
@@ -68,6 +79,8 @@ public class PatientDAO extends AbstractDAO<Patient> {
         statement.setString(ID_PATRONYMIC, patient.getPatronymic());
         statement.setString(ID_SURNAME, patient.getSurname());
         statement.setString(ID_PHONENUMBER, patient.getPhoneNumber());
+        statement.setLong(ID_POLICY, patient.getPolicy());
+        statement.setString(ID_REGISTRATION, patient.getRegistration());
     }
 
     @Override
@@ -75,7 +88,7 @@ public class PatientDAO extends AbstractDAO<Patient> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(
-                    "INSERT INTO PATIENT (NAME, PATRONYMIC, SURNAME, PHONENUMBER) VALUES (?,?,?,?)");
+                    "INSERT INTO PATIENT (NAME, PATRONYMIC, SURNAME, PHONENUMBER, POLICY, REGISTRATION) VALUES (?,?,?,?,?,?)");
             setValues(statement, patient);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,7 +103,7 @@ public class PatientDAO extends AbstractDAO<Patient> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(
-                    "UPDATE PATIENT SET NAME = ?, PATRONYMIC = ?, SURNAME = ?, PHONENUMBER = ? WHERE ID = ?");
+                    "UPDATE PATIENT SET NAME = ?, PATRONYMIC = ?, SURNAME = ?, PHONENUMBER = ?, POLICY = ?, REGISTRATION = ? WHERE ID = ?");
             setValues(statement, patient);
             statement.setLong(ID_ID, id);
         } catch (SQLException e) {

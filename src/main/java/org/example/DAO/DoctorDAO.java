@@ -8,30 +8,29 @@ import java.sql.*;
  * The type Doctor dao.
  */
 public class DoctorDAO extends AbstractDAO<Doctor> {
-    private static final int ID_PIC = 1;
 
     /**
      * @value name identifier
      */
-    private static final int ID_NAME = 2;
+    private static final int ID_NAME = 1;
     /**
      * @value patronymic identifier
      */
-    private static final int ID_PATRONYMIC = 3;
+    private static final int ID_PATRONYMIC = 2;
     /**
      * @value surname identifier
      */
-    private static final int ID_SURNAME = 4;
+    private static final int ID_SURNAME = 3;
     /**
      * @value specialization identifier
      */
-    private static final int ID_SPECIALIZATION = 5;
+    private static final int ID_SPECIALIZATION = 4;
     /**
      * @value identifier
      */
-    private static final int ID_ID = 7;
+    private static final int ID_ID = 6;
 
-    private static final int ID_COURSES = 6;
+    private static final int ID_COURSES = 5;
 
     @Override
     protected final Doctor getObject(final ResultSet resultSet) throws SQLException {
@@ -47,6 +46,11 @@ public class DoctorDAO extends AbstractDAO<Doctor> {
     protected final ResultSet getRsAll(
             final Statement statement) throws SQLException {
         return statement.executeQuery("SELECT * FROM DOCTOR");
+    }
+
+    @Override
+    protected ResultSet getRsAll(Statement statement, long id) throws SQLException {
+        return null;
     }
 
     @Override
@@ -85,7 +89,7 @@ public class DoctorDAO extends AbstractDAO<Doctor> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(
-                    "INSERT INTO DOCTOR (PIC, NAME, PATRONYMIC, SURNAME, SPECIALIZATION, COURSES) VALUES (?,?,?,?,?,?)");
+                    "INSERT INTO DOCTOR (NAME, PATRONYMIC, SURNAME, SPECIALIZATION, COURSES) VALUES (?,?,?,?,?,?)");
             setValues(statement, doctor);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,7 +104,7 @@ public class DoctorDAO extends AbstractDAO<Doctor> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(
-                    "UPDATE DOCTOR SET PIC = ?, NAME = ?, PATRONYMIC = ?, SURNAME = ?, SPECIALIZATION = ?, COURSES = ? WHERE ID = ?");
+                    "UPDATE DOCTOR SET NAME = ?, PATRONYMIC = ?, SURNAME = ?, SPECIALIZATION = ?, COURSES = ? WHERE ID = ?");
             setValues(statement, doctor);
             statement.setLong(ID_ID, id);
         } catch (SQLException e) {
