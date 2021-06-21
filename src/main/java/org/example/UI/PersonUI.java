@@ -28,8 +28,8 @@ public abstract class PersonUI<E extends Person> extends AbstractUI<E> {
      *
      * @param dao the dao
      */
-    public PersonUI(final AbstractDAO<E> dao) {
-        super(dao);
+    public PersonUI(final AbstractDAO<E> dao, String role) {
+        super(dao, role);
     }
 
     @Override

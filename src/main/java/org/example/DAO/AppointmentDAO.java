@@ -26,7 +26,7 @@ public class AppointmentDAO extends AbstractDAO{
 
     @Override
     protected ResultSet getRsAll(Statement statement) throws SQLException {
-        return null;
+        return statement.executeQuery("SELECT * FROM APPOINTMENT");
     }
 
     protected ResultSet getRsAll(Statement statement, long id) throws SQLException {
@@ -49,6 +49,28 @@ public class AppointmentDAO extends AbstractDAO{
     @Override
     protected PreparedStatement getPsUpdate(Connection connection, Object object, long id) throws SQLException {
         return null;
+    }
+
+    protected final PreparedStatement getPsAdd(final Connection connection, final Appointment appointment) throws SQLException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(
+                    "INSERT INTO APPOINTMENT (ID_PATIENT, VISIT_DATE, APPEAL, ID_RECIPE, DIAGNOSIS, ID_DOCTOR) VALUES (?,?,?,?,?,?)");
+            setValues(statement, appointment);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return statement;
+    }
+
+    public void setValues(final PreparedStatement statement, final Appointment appointment) throws SQLException {
+        statement.setLong(1, appointment.getPatient().getId());
+        statement.setDate(2, Date.valueOf(appointment.getVisitDate()));
+        statement.setString(3, appointment.getAppeal());
+        statement.setLong(4, appointment.getRecipe().getId());
+        statement.setString(5, appointment.getDiagnosis());
+        statement.setLong(6, appointment.getDoctor().getId());
     }
 
     @Override

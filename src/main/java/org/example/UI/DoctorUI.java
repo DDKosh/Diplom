@@ -13,8 +13,8 @@ public class DoctorUI extends PersonUI<Doctor> {
     /**
      * Instantiates a new Doctor ui.
      */
-    public DoctorUI() {
-        super(new DoctorDAO());
+    public DoctorUI(String role) {
+        super(new DoctorDAO(), role);
     }
 
     @Override

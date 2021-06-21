@@ -14,8 +14,8 @@ public class PatientUI extends PersonUI<Patient> {
      * Instantiates a new Patient ui.
      */
 
-    public PatientUI() {
-        super(new PatientDAO());
+    public PatientUI(String role) {
+        super(new PatientDAO(), role);
     }
 
     @Override

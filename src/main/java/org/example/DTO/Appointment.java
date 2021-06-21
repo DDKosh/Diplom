@@ -71,4 +71,12 @@ public class Appointment extends Abstract{
     public void setDiagnosis(String diagnosis) {
         this.diagnosis = diagnosis;
     }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
 }

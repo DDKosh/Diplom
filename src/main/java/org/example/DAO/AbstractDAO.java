@@ -197,4 +197,8 @@ public abstract class AbstractDAO<E> {
             System.err.println(e);
         }
     }
+
+    public void method() {
+    }
+
 }

@@ -27,59 +27,32 @@ import java.time.LocalDate;
  * @param <E> the type parameter
  */
 public class EditAddModalUI<E> extends Dialog {
-    /**
-     * @value main vertical layout
-     */
-    private VerticalLayout layout = new VerticalLayout();
-    /**
-     * @value okay button
-     */
-    private Button okButton;
-    /**
-     * @value cancel button
-     */
-    private Button cancelButton;
-    /**
-     * @value name text field
-     */
-    private TextField nameField;
-    /**
-     * @value patronymic text field
-     */
-    private TextField patronymicField;
-    /**
-     * @value surname text field
-     */
-    private TextField surnameField;
-    /**
-     * @value phone number text field
-     */
-    private TextField phoneNumberField;
-    /**
-     * @value specialization text field
-     */
-    private ComboBox specializationBox;
-    /**
-     * @value description text field
-     */
-    private TextArea descriptionField;
-    /**
-     * @value patient combo box
-     */
-    private ComboBox patientBox;
-    /**
-     * @value doctor combo box
-     */
-    private ComboBox doctorBox;
-    /**
-     * @value creation date field
-     */
-    private DatePicker creationDateField;
-    /**
-     * @value validity text field
-     */
-    private TextField validityField;
 
+    private VerticalLayout layout = new VerticalLayout();
+
+    private Button okButton;
+
+    private Button cancelButton;
+
+    private TextField nameField;
+
+    private TextField patronymicField;
+
+    private TextField surnameField;
+
+    private TextField phoneNumberField;
+
+    private ComboBox specializationBox;
+
+    private TextArea descriptionField;
+
+    private ComboBox patientBox;
+
+    private ComboBox doctorBox;
+
+    private DatePicker creationDateField;
+
+    private TextField validityField;
 
     private TextArea coursesField;
 
@@ -87,30 +60,17 @@ public class EditAddModalUI<E> extends Dialog {
 
     private TextField registrationField;
 
-    /**
-     * @value recipe priority combo box
-     */
     private ComboBox priorityBox;
 
-    /**
-     * @value one constant
-     */
     private static final int ID_ONE = 1;
-    /**
-     * @value three constant
-     */
+
     private static final int ID_THREE = 3;
-    /**
-     * @value four constant
-     */
+
     private static final int ID_FOUR = 4;
 
-    /**
-     * Instantiates a new Edit add modal ui.
-     *
-     * @param abstractUI the abstract ui
-     */
-    public EditAddModalUI(final AbstractUI abstractUI) {
+    private String role = null;
+
+    public EditAddModalUI(final AbstractUI abstractUI, String role) {
         if (abstractUI instanceof DoctorUI) {
             createDoctorLayout();
             add(layout);
@@ -183,13 +143,8 @@ public class EditAddModalUI<E> extends Dialog {
         });
     }
 
-    /**
-     * Instantiates a new Edit add modal ui.
-     *
-     * @param abstractUI the abstract ui
-     * @param object     the object
-     */
-    public EditAddModalUI(final AbstractUI abstractUI, final E object) {
+
+    public EditAddModalUI(final AbstractUI abstractUI, final E object, String role) {
 
             if (abstractUI instanceof DoctorUI) {
                 Doctor doctor = (Doctor) object;

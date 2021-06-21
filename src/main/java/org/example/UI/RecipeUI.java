@@ -13,8 +13,8 @@ public class RecipeUI extends AbstractUI<Recipe> {
     /**
      * Instantiates a new Recipe ui.
      */
-    public RecipeUI() {
-        super(new RecipeDAO());
+    public RecipeUI(String role) {
+        super(new RecipeDAO(), role);
     }
 
     @Override

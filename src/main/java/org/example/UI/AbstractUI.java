@@ -28,56 +28,42 @@ import java.util.NoSuchElementException;
  * @param <E> the type parameter
  */
 public abstract class AbstractUI<E extends Abstract> extends VerticalLayout implements RouterLayout {
-    /**
-     * Create grid grid.
-     *
-     * @return the grid
-     */
+
     public abstract Grid<E> createGrid();
 
     Div div = new Div();
-    /**
-     * The Dao.
-     */
+
     private AbstractDAO<E> dao;
-    /**
-     * The Grid.
-     */
+
     private Grid<E> grid;
-    /**
-     * The Entity.
-     */
+
     private List<E> entity;
 
-    /**
-     * Instantiates a new Abstract ui.
-     *
-     * @param inputDao the dao
-     */
+    private String role = null;
+
     HorizontalLayout horizontalLayout = new HorizontalLayout();
 
 
-    public AbstractUI(final AbstractDAO<E> inputDao) {
-        /**
-         * The Add button.
-         */
+    public AbstractUI(final AbstractDAO<E> inputDao, String role) {
+        this.role = role;
         Button addButton = new Button("Добавить");
-        div.add(addButton);
+        if (role.equals("1")) {
+            div.add(addButton);
+        }
         addButton.addClickListener(e -> {
             EditAddModalUI<Abstract> editAddModal =
-                    new EditAddModalUI<Abstract>(this);
+                    new EditAddModalUI<Abstract>(this, role);
             editAddModal.open();
             //getUI().addWindow(editAddModal);
         });
 
-        /**
-         * The Change button.
-         */
         Button changeButton = new Button("Изменить");
-        div.add(changeButton);
+        if (role.equals("1")) {
+            div.add(changeButton);
+        }
         changeButton.addClickListener(e -> {
             EditAddModalUI<Abstract> editAddModal =
-                    new EditAddModalUI<Abstract>(this, getSelectedItem());
+                    new EditAddModalUI<Abstract>(this, getSelectedItem(), role);
             editAddModal.open();
             Dialog dialog = new Dialog();
             dialog.setCloseOnOutsideClick(false);
@@ -92,7 +78,9 @@ public abstract class AbstractUI<E extends Abstract> extends VerticalLayout impl
          * The Delete button.
          */
         Button deleteButton = new Button("Удалить");
-        div.add(deleteButton);
+        if (role.equals("1")) {
+            div.add(deleteButton);
+        }
         deleteButton.addClickListener(e -> {
             try {
                 this.dao.delete(getSelectedItem().getId());
@@ -113,8 +101,11 @@ public abstract class AbstractUI<E extends Abstract> extends VerticalLayout impl
          * The Tab sheet.
          */
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.add(addButton, changeButton, deleteButton);
-        add(horizontalLayout, grid);
+        if (role.equals("1")) {
+            horizontalLayout.add(addButton, changeButton, deleteButton);
+            add(horizontalLayout);
+        }
+        add(grid);
         grid.setItems(entity);
         final Person[] o = new Person[1];
         grid.addItemClickListener(e -> {
@@ -123,7 +114,7 @@ public abstract class AbstractUI<E extends Abstract> extends VerticalLayout impl
         });
         grid.addItemDoubleClickListener(e -> {
 
-            PersonInfo personInfo = new PersonInfo(o[0]);
+            PersonInfo personInfo = new PersonInfo(o[0], role);
             //this.setVisible(false);
             //grid.setVisible(false);
             //personInfo.setVisible(true);

@@ -73,4 +73,23 @@ public class AppointmentUI<E extends Abstract> extends Dialog {
         });
     }
 
+    AppointmentUI( ) {
+        Div div = new Div();
+        doctorBox.setItemLabelGenerator((ItemLabelGenerator<Doctor>) Doctor::getFullName);
+        doctorBox.setWidth("300px");
+        doctorBox.setRequired(true);
+
+        recipeBox.setItemLabelGenerator((ItemLabelGenerator<Recipe>) Recipe::getDescription);
+        recipeBox.setWidth("500px");
+        recipeBox.setRequired(true);
+
+        visitDate.setValue(LocalDate.now());
+
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(okButton, cancelButton);
+
+        div.add(doctorBox, recipeBox, visitDate, appeal, diagnosis);
+
+    }
+
 }
